@@ -10,7 +10,7 @@ import ec.edu.uce.pa.renderes.RenderHexagonoProyFP;
 import ec.edu.uce.pa.renderes.RenderHexagonoProyO;
 import ec.edu.uce.pa.renderes.RenderHexagonoStride;
 import ec.edu.uce.pa.renderes.RenderHexagonoTextura;
-import ec.edu.uce.pa.renders.RendererEsfera;
+import ec.edu.uce.pa.renderes.RendererEsfera;
 
 public class MainActivity extends AppCompatActivity {
 

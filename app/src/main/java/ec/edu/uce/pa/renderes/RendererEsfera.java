@@ -63,19 +63,10 @@ public class RendererEsfera implements GLSurfaceView.Renderer {
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
 
         posicionarObjeto();
-        translate(0,0,-4);
-
-        posicionarObjeto();
-        translate(0,0,-4);
+        translate(0,0,-8);
         rotar(0,1,0,rotacion);
         esfera.dibujar(new GLES20());
 
-        posicionarObjeto();
-        rotar(0,1,0,rotacion);
-
-        translate((float)Math.cos(rotacion/2),0,(float)Math.sin(rotacion/2));
-        scalef(0.5f,0.5f,0.5f);
-        esfera.dibujar(new GLES20());
         rotacion += 0.8f;
     }
     private void posicionarObjeto() {
@@ -85,17 +76,14 @@ public class RendererEsfera implements GLSurfaceView.Renderer {
     }
 
     private void rotar(float x, float y, float z, float anguloRot){
-
         Matrix.rotateM(matrizModelo, 0, anguloRot, x, y, z);
     }
 
     private void translate(float x, float y, float z){
-
         Matrix.translateM(matrizModelo, 0, x, y, z);
     }
 
-    private void scalef(float x, float y, float z){
-
+    private void scale(float x, float y, float z){
         Matrix.scaleM(matrizModelo,0,x,y,z);
     }
 }

@@ -113,7 +113,7 @@ public class Esfera {
         String sourceVS = null;
         String sourceFS = null;
 
-        sourceVS = Funciones.leerArchivo(R.raw.textura_vertex_shader, contexto);
+        sourceVS = Funciones.leerArchivo(R.raw.textura_planetas_vertex_shader, contexto);
         vertexShader = Funciones.crearShader(gl.GL_VERTEX_SHADER, sourceVS, gl);
 
         sourceFS = Funciones.leerArchivo(R.raw.textura_fragment_shader, contexto);
