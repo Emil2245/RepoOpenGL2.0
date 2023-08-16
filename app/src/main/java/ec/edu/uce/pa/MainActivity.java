@@ -10,6 +10,7 @@ import ec.edu.uce.pa.renderes.RenderHexagonoProyFP;
 import ec.edu.uce.pa.renderes.RenderHexagonoProyO;
 import ec.edu.uce.pa.renderes.RenderHexagonoStride;
 import ec.edu.uce.pa.renderes.RenderHexagonoTextura;
+import ec.edu.uce.pa.renders.RendererEsfera;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
         view = new GLSurfaceView(this);
         view.setEGLContextClientVersion(2);
 //        render = new RenderHexagonoProyFP(this);
-        render = new RenderHexagonoTextura(this);
+//        render = new RenderHexagonoTextura(this);
+        render = new RendererEsfera(this);
         //render = new RenderHexagonoStride(this);
 //        render = new RenderHexagonoProyO(this);
         //render = new RenderHexagonoColor(this);
