@@ -40,7 +40,6 @@ public class RendererEsfera implements GLSurfaceView.Renderer {
         gl.glEnable(gl.GL_DEPTH_TEST);
         arrayTextura = Funciones.habilitarTexturas(new GLES20(),1);
         Funciones.cargarImagenesTexturas(new GLES20(),context, R.drawable.tierra,0,arrayTextura);
-
     }
 
     @Override
@@ -49,11 +48,10 @@ public class RendererEsfera implements GLSurfaceView.Renderer {
         relacionAspecto = (float) ancho / (float) alto;
         Matrix.frustumM(matrizProyeccion, 0, -relacionAspecto, relacionAspecto,
                 -1, 1, 1, 50);
-
-        Matrix.setLookAtM(matrizVista, 0, 0, 0.5f, -4,
+        Matrix.setLookAtM(matrizVista, 0,
+                0, 0.5f, -4,
                 0, 0, 0,
                 0, 1, 0);
-
         Matrix.multiplyMM(matrizTemp, 0, matrizProyeccion, 0, matrizVista, 0);
         System.arraycopy(matrizTemp, 0, matrizProyeccion, 0, matrizTemp.length);
     }
@@ -62,14 +60,14 @@ public class RendererEsfera implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
 
-        posicionarObjeto();
+        invocarFiguras();
         translate(0,0,-8);
         rotar(0,1,0,rotacion);
         esfera.dibujar(new GLES20());
 
         rotacion += 0.8f;
     }
-    private void posicionarObjeto() {
+    private void invocarFiguras() {
         Matrix.setIdentityM(matrizModelo, 0);
         Matrix.multiplyMM(matrizTemp, 0, matrizProyeccion, 0, matrizModelo, 0);
         System.arraycopy(matrizTemp, 0, matrizProyeccion, 0, matrizTemp.length);

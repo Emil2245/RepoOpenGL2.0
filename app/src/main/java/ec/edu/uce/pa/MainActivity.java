@@ -11,6 +11,7 @@ import ec.edu.uce.pa.renderes.RenderHexagonoProyO;
 import ec.edu.uce.pa.renderes.RenderHexagonoStride;
 import ec.edu.uce.pa.renderes.RenderHexagonoTextura;
 import ec.edu.uce.pa.renderes.RendererEsfera;
+import ec.edu.uce.pa.renderes.RendererSistemaSolar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         view.setEGLContextClientVersion(2);
 //        render = new RenderHexagonoProyFP(this);
 //        render = new RenderHexagonoTextura(this);
-        render = new RendererEsfera(this);
+        render = new RendererSistemaSolar(this);
         //render = new RenderHexagonoStride(this);
 //        render = new RenderHexagonoProyO(this);
         //render = new RenderHexagonoColor(this);
