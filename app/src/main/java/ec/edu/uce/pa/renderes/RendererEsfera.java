@@ -11,10 +11,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import ec.edu.uce.pa.R;
 import ec.edu.uce.pa.utilidades.Funciones;
-import ec.edu.uce.pa.geometria.Esfera;
+import ec.edu.uce.pa.geometria.Esfera2;
 
 public class RendererEsfera implements GLSurfaceView.Renderer {
-    private Esfera esfera;
+    private Esfera2 esfera2;
 
     private Context context;
 
@@ -31,7 +31,7 @@ public class RendererEsfera implements GLSurfaceView.Renderer {
     public RendererEsfera(Context contexto) {
         this.context = contexto;
         //circulo = new Circulo();
-        esfera = new Esfera(30, 30, 1.0f, 1.0f,contexto,matrizProyeccion,matrizVista,matrizModelo);
+        esfera2 = new Esfera2(30, 30, 1.0f, 1.0f,contexto,matrizProyeccion,matrizVista,matrizModelo);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class RendererEsfera implements GLSurfaceView.Renderer {
         invocarFiguras();
         translate(0,0,-8);
         rotar(0,1,0,rotacion);
-        esfera.dibujar(new GLES20());
+        esfera2.dibujar(new GLES20());
 
         rotacion += 0.8f;
     }

@@ -8,7 +8,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import ec.edu.uce.pa.geometria.Hexagono;
-import ec.edu.uce.pa.geometria.Punto;
 
 public class RenderHexagono implements GLSurfaceView.Renderer {
 

@@ -15,7 +15,7 @@ import ec.edu.uce.pa.geometria.Astros2;
 import ec.edu.uce.pa.geometria.Estrellas2;
 import ec.edu.uce.pa.utilidades.Funciones;
 
-public class RendererSistemaSolar implements GLSurfaceView.Renderer {
+public class RendererPruebas implements GLSurfaceView.Renderer {
     private Astros2 astro;
     private Estrellas2 estrellas2;
     private Context context;
@@ -30,7 +30,7 @@ public class RendererSistemaSolar implements GLSurfaceView.Renderer {
     private float relacionAspecto, rotacion = 0.0f;
     int[] arrayTextura = new int[10];
 
-    public RendererSistemaSolar(Context contexto) {
+    public RendererPruebas(Context contexto) {
         this.context = contexto;
         astro = new Astros2(25, 25, 1.0f, 1.0f, contexto, matrizProyeccion, matrizVista, matrizModelo);
     }

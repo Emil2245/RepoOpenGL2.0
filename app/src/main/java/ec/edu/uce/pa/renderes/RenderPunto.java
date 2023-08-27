@@ -1,26 +1,21 @@
 package ec.edu.uce.pa.renderes;
 
-import static android.opengl.GLES20.GL_VERTEX_SHADER;
-
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-
-import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import ec.edu.uce.pa.geometria.Punto;
-import ec.edu.uce.pa.utilidades.Funciones;
+import ec.edu.uce.pa.geometria.PuntoGL2;
 
 public class RenderPunto implements GLSurfaceView.Renderer {
 
-    private Punto punto;
+    private PuntoGL2 puntoGL2;
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         gl.glClearColor(0.5f,0.5f,0.5f,1.0f);
-        punto = new Punto();
+        puntoGL2 = new PuntoGL2();
 
     }
 
@@ -35,7 +30,7 @@ public class RenderPunto implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
         gl.glClear(gl.GL_COLOR_BUFFER_BIT);
         //gl.glColor4f(1.0f,0.0f,0.0f,1.0f);
-        punto.dibujar(new GLES20 ());
+        puntoGL2.dibujar(new GLES20 ());
 
     }
 }

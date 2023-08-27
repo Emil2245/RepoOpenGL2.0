@@ -10,7 +10,7 @@ import java.nio.FloatBuffer;
 
 import ec.edu.uce.pa.utilidades.Funciones;
 
-public class Estrellas {
+public class Estrellas2 {
 
     private FloatBuffer bufferVertices;
     private FloatBuffer bufferColores;
@@ -24,7 +24,7 @@ public class Estrellas {
     float[] colores = new float[numEstrellas * 4];
 
 
-    public Estrellas(){
+    public Estrellas2(){
 
         for (int i = 0; i < numEstrellas; i++) {
             float x = (float) Math.random() * 2.0f - 1.0f;

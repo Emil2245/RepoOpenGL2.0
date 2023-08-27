@@ -9,7 +9,7 @@ import java.nio.FloatBuffer;
 
 import ec.edu.uce.pa.utilidades.Funciones;
 
-public class Punto {
+public class PuntoGL2 {
 
     private FloatBuffer bufferVertices;
     private FloatBuffer bufferColores;
@@ -18,7 +18,7 @@ public class Punto {
     private static final int compPorVertice = 2;
     private static final int compPorColor = 4;
 
-   public Punto(){
+   public PuntoGL2(){
 
        float[]vertices = {
                 0.9f, 0.9f,

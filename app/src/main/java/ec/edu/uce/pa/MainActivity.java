@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ec.edu.uce.pa.renderes.RenderHexagono;
 import ec.edu.uce.pa.renderes.RenderHexagonoProyFP;
 import ec.edu.uce.pa.renderes.RenderHexagonoProyO;
 import ec.edu.uce.pa.renderes.RenderHexagonoStride;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         //render = new RenderHexagonoStride(this);
 //        render = new RenderHexagonoProyO(this);
         //render = new RenderHexagonoColor(this);
-        //render = new RenderHexagono(this);
+//        render = new RenderHexagono(this);
        // render = new RenderPunto();
 
         view.setRenderer(render);

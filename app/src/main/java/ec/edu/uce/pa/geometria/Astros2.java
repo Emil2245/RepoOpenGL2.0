@@ -2,23 +2,32 @@ package ec.edu.uce.pa.geometria;
 
 import android.content.Context;
 import android.opengl.GLES20;
+
 import java.nio.FloatBuffer;
+
 import ec.edu.uce.pa.R;
 import ec.edu.uce.pa.utilidades.Funciones;
 
-public class Esfera {
-    private FloatBuffer bufferVertices;
-    private FloatBuffer bufferNormales;
-    private FloatBuffer bufferTexturas;
+
+public class Astros2 {
+
+    private final FloatBuffer bufferVertices;
+
+    private final FloatBuffer bufferTexturas;
     private static final int byteFlotante = 4;
     private static final int compPorVertice = 3;
     private static final int compPorText = 2;
     private final static int STRIDE = (compPorVertice + compPorText) * byteFlotante;
-    private int cortes, franjas;
-    private float[] matrizProyeccion,matrizVista, matrizModelo;
-    private Context contexto;
 
-    public Esfera(int franjas, int cortes, float radio, float ejePolar,Context contexto, float[] matrizProyeccion,float[] matrizVista,float[] matrizModelo) {
+    private final int cortes;
+    private final int franjas;
+    private final float[] matrizProyeccion;
+    private final float[] matrizVista;
+    private final float[] matrizModelo;
+    private final Context contexto;
+
+
+    public Astros2(int franjas, int cortes, float radio, float ejePolar, Context contexto, float[] matrizProyeccion, float[] matrizVista, float[] matrizModelo) {
         this.cortes = cortes;
         this.franjas = franjas;
         this.matrizVista = matrizVista;
@@ -31,11 +40,9 @@ public class Esfera {
         float[] texturas;
 
         int iVertice = 0;
-        int iNormal = 0;
         int iTextura = 0;
 
         vertices = new float[3 * ((cortes * 2 + 2) * franjas)];
-        normales = new float[3 * ((cortes * 2 + 2) * franjas)];
         texturas = new float[2 * ((cortes * 2 + 2) * franjas)];
 
         int i, j;
@@ -48,7 +55,7 @@ public class Esfera {
             //Theta --> angulo de longitud
 
             //Valor del angulo para el primer cìrculo
-            float phi0 = (float) Math.PI * ((i + 0) * (1.0f / (franjas)) - 0.5f);
+            float phi0 = (float) Math.PI * ((i) * (1.0f / (franjas)) - 0.5f);
             float cosPhi0 = (float) Math.cos(phi0);
             float sinPhi0 = (float) Math.sin(phi0);
 
@@ -66,7 +73,7 @@ public class Esfera {
                 sinTheta = (float) Math.sin(theta);
 
                 // Dibujar la esfera en duplas, pares de puntos
-                vertices[iVertice + 0] = radio * cosPhi0 * cosTheta;          //x
+                vertices[iVertice] = radio * cosPhi0 * cosTheta;          //x
                 vertices[iVertice + 1] = radio * (sinPhi0 * ejePolar);    //y
                 vertices[iVertice + 2] = (radio * (cosPhi0 * sinTheta));        //z
 
@@ -74,26 +81,17 @@ public class Esfera {
                 vertices[iVertice + 4] = radio * (sinPhi1 * ejePolar);    //y'
                 vertices[iVertice + 5] = (radio * (cosPhi1 * sinTheta));        //z'
 
-                normales[iNormal + 0] = cosPhi0 * cosTheta;          //x
-                normales[iNormal + 1] = (sinPhi0);    //y
-                normales[iNormal + 2] = (cosPhi0 * sinTheta);        //z
-
-                normales[iNormal + 3] = cosPhi1 * cosTheta;          //x'
-                normales[iNormal + 4] = (sinPhi1);    //y'
-                normales[iNormal + 5] = (cosPhi1 * sinTheta);        //z'
-
-                texturas[iTextura + 0] = j*1.0f/(cortes-1);          //x
-                texturas[iTextura + 1] = (i+0)*1.0f/(franjas-1)*-1;   //y
+                texturas[iTextura] = j*1.0f/(cortes-1);          //x
+                texturas[iTextura + 1] = (i)*1.0f/(franjas-1)*-1;   //y
 
                 texturas[iTextura + 2] = j*1.0f/(cortes-1);      //z
                 texturas[iTextura + 3] = (i+1)*1.0f/(franjas-1)*-1;          //x'
 
                 iVertice += 2 * 3;
-                iNormal += 2 * 3;
                 iTextura += 2 * 2;
             }
 
-            vertices[iVertice + 0] = vertices[iVertice + 3];
+            vertices[iVertice] = vertices[iVertice + 3];
             vertices[iVertice + 3] = vertices[iVertice - 3];
             vertices[iVertice + 1] = vertices[iVertice + 4];
             vertices[iVertice + 4] = vertices[iVertice - 2];
@@ -102,66 +100,60 @@ public class Esfera {
         }
 
         bufferVertices = Funciones.generarFloatBuffer(vertices);
-        bufferNormales = Funciones.generarFloatBuffer(normales);
         bufferTexturas = Funciones.generarFloatBuffer(texturas);
     }
 
-    public void dibujar(GLES20 gl) {
-        int vertexShader = 0;
-        int fragmentShader = 0;
+    public void dibujar(GLES20 gl, int[] arrayTextura, int indicetesxtura) {
+        int vertexShader;
+        int fragmentShader;
 
-        String sourceVS = null;
-        String sourceFS = null;
+        String sourceVS;
+        String sourceFS;
 
         sourceVS = Funciones.leerArchivo(R.raw.textura_planetas_vertex_shader, contexto);
-        vertexShader = Funciones.crearShader(gl.GL_VERTEX_SHADER, sourceVS, gl);
+        vertexShader = Funciones.crearShader(GLES20.GL_VERTEX_SHADER, sourceVS, gl);
 
         sourceFS = Funciones.leerArchivo(R.raw.textura_fragment_shader, contexto);
-        fragmentShader = Funciones.crearShader(gl.GL_FRAGMENT_SHADER, sourceFS, gl);
+        fragmentShader = Funciones.crearShader(GLES20.GL_FRAGMENT_SHADER, sourceFS, gl);
 
         int programa = Funciones.crearPrograma(vertexShader, fragmentShader, gl);
-        gl.glUseProgram(programa);
+        GLES20.glUseProgram(programa);
 
         bufferVertices.position(0);
-        int idVertexShader = gl.glGetAttribLocation(programa, "posVertexShader");
-        gl.glVertexAttribPointer(idVertexShader,
+        int idVertexShader = GLES20.glGetAttribLocation(programa, "posVertexShader");
+        GLES20.glVertexAttribPointer(idVertexShader,
                 compPorVertice,
-                gl.GL_FLOAT,
+                GLES20.GL_FLOAT,
                 false,
                 0,
                 bufferVertices);
-        gl.glEnableVertexAttribArray(idVertexShader);
+        GLES20.glEnableVertexAttribArray(idVertexShader);
 
         bufferTexturas.position(0);
-        int idFragmentShader = gl.glGetAttribLocation(programa, "texturaVertex");
-        gl.glVertexAttribPointer(idFragmentShader,
+        int idFragmentShader = GLES20.glGetAttribLocation(programa, "texturaVertex");
+        GLES20.glVertexAttribPointer(idFragmentShader,
                 compPorText,
-                gl.GL_FLOAT,
+                GLES20.GL_FLOAT,
                 false,
                 0,
                 bufferTexturas);
-        gl.glEnableVertexAttribArray(idFragmentShader);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,arrayTextura[indicetesxtura]);
+        GLES20.glEnableVertexAttribArray(idFragmentShader);
 
+        int idPosMatrizProy = GLES20.glGetUniformLocation(programa, "matrizProjection");
+        GLES20.glUniformMatrix4fv(idPosMatrizProy, 1, false, matrizProyeccion, 0);
 
+        int idPosMatrizView = GLES20.glGetUniformLocation(programa, "matrizView");
+        GLES20.glUniformMatrix4fv(idPosMatrizView, 1, false, matrizVista, 0);
 
-        int idPosMatrizProy = gl.glGetUniformLocation(programa, "matrizProjection");
-        gl.glUniformMatrix4fv(idPosMatrizProy, 1, false, matrizProyeccion, 0);
+        int idPosMatrizModel = GLES20.glGetUniformLocation(programa, "matrizModel");
+        GLES20.glUniformMatrix4fv(idPosMatrizModel, 1, false, matrizModelo, 0);
 
-        int idPosMatrizView = gl.glGetUniformLocation(programa, "matrizView");
-        gl.glUniformMatrix4fv(idPosMatrizView, 1, false, matrizVista, 0);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, franjas * cortes * 2);
 
-        int idPosMatrizModel = gl.glGetUniformLocation(programa, "matrizModel");
-        gl.glUniformMatrix4fv(idPosMatrizModel, 1, false, matrizModelo, 0);
-
-
-        gl.glFrontFace(gl.GL_CW);
-
-        gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 0, franjas * cortes * 2);
-
-        gl.glFrontFace(gl.GL_CCW);
-
-        gl.glDisableVertexAttribArray(idVertexShader);
-        gl.glDisableVertexAttribArray(idFragmentShader);
+        GLES20.glFrontFace(GLES20.GL_CCW);
+        GLES20.glDisableVertexAttribArray(idVertexShader);
+        GLES20.glDisableVertexAttribArray(idFragmentShader);
 
         Funciones.liberarShader(programa, vertexShader, fragmentShader);
     }
