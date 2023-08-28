@@ -19,9 +19,9 @@ public class RendererPruebas implements GLSurfaceView.Renderer {
     private Astros2 astro;
     private Estrellas2 estrellas2;
     private Context context;
-    private Stack<float[]> stackModelo = new Stack<>();
-    private Stack<float[]> stackVista = new Stack<>();
-    private Stack<float[]> stackProyeccion = new Stack<>();
+    private static float[] stackModelo = new float[16];
+    private static float[] stackVista = new float[16];
+    private static float[] stackProyeccion = new float[16];
 
     private static float[] matrizModelo = new float[16];
     private static float[] matrizVista = new float[16];
@@ -46,13 +46,13 @@ public class RendererPruebas implements GLSurfaceView.Renderer {
         Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.sun, 0, arrayTextura);
         Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.mercurio, 1, arrayTextura);
         Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.venus, 2, arrayTextura);
-        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.tierra, 3, arrayTextura);
-        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.moon, 4, arrayTextura);
-        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.mars, 5, arrayTextura);
-        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.jupiter, 6, arrayTextura);
-        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.saturn, 7, arrayTextura);
-        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.uranus, 8, arrayTextura);
-        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.neptune, 9, arrayTextura);
+//        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.tierra, 3, arrayTextura);
+//        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.moon, 4, arrayTextura);
+//        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.mars, 5, arrayTextura);
+//        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.jupiter, 6, arrayTextura);
+//        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.saturn, 7, arrayTextura);
+//        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.uranus, 8, arrayTextura);
+//        Funciones.cargarImagenesTexturas(new GLES20(), context, R.drawable.neptune, 9, arrayTextura);
 
     }
 
@@ -69,61 +69,38 @@ public class RendererPruebas implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
 
-        GLES20 gles20= new GLES20();
+        GLES20 gles20 = new GLES20();
         Matrix.setIdentityM(matrizModelo, 0);
 
         // sol
-        transladar(0, 10, -80f);
-        rotar(0, 1, 0, rotacion);
-        escalar(9f, 9f, 9f);
+        transladar(0, 0, -10f);
         astro.dibujar(gles20, arrayTextura, 0);
+        rotar(0, 1, 0, rotacion);
 
+        pushMatrix();
         //mercurio
-        transladar(0, 0, -1.3f);
-        escalar(0.1f,0.1f,0.1f);
+        escalar(0.5f, 0.5f, 0.5f);
+        transladar(0, 0, -4f);
+        rotar(0, 1, 0, rotacion);
         astro.dibujar(gles20, arrayTextura, 1);
         //venus
-        transladar(0, 0, -3f);
-        escalar(1.3f, 1.3f, 1.3f);
+        transladar(0, 0, -1f);
+        escalar(0.5f, 0.5f, 0.5f);
         astro.dibujar(gles20, arrayTextura, 2);
+        popMatrix();
 
-        resetearMatrices();
-        transladar(0, 10, -80f);
-        rotar(0, 1, 0, rotacion);
-
-        //tierra
-        transladar(0, 0, -18.3f);
-        escalar(1.5f, 1.5f, 1.5f);
-        astro.dibujar(gles20, arrayTextura, 3);
-        //marte
-        transladar(0, 0, -3);
-        escalar(1.45f, 1.45f, 1.45f);
-        astro.dibujar(gles20, arrayTextura, 5);
-        //jupiter
-        transladar(0, 0, -3);
-        escalar(1.6f, 1.6f, 1.6f);
-        astro.dibujar(gles20, arrayTextura, 6);
-        //saturno
-        transladar(0, 0, -1.5f);
-        escalar(0.6f, 0.6f, 0.6f);
-        astro.dibujar(gles20, arrayTextura, 7);
-        //urano
-        transladar(0, 0, -1);
-        escalar(0.8f, 0.8f, 0.8f);
-        astro.dibujar(gles20, arrayTextura, 8);
-        //neptuno
-        transladar(0, 0, -1);
-        escalar(0.6f, 0.6f, 0.6f);
-        astro.dibujar(gles20, arrayTextura, 9);
+        transladar(0, 0, -4f);
+        astro.dibujar(gles20, arrayTextura, 1);
 
         rotacion += 1.8f;
     }
 
     private void invocarFrustrum() {
         Matrix.frustumM(matrizProyeccion, 0, -relacionAspecto, relacionAspecto,
-                -1, 1, 1, 800);
+                -1, 1, 1f, 100);
 
-        Matrix.setLookAtM(matrizVista, 0, 0, 30, -1,
+        Matrix.setLookAtM(matrizVista, 0,
+                0, 0, -1,
                 0, 0, 0,
                 0, 1, 0);
         Matrix.multiplyMM(matrizTemp, 0, matrizProyeccion, 0, matrizVista, 0);
@@ -135,27 +112,24 @@ public class RendererPruebas implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(matrizTemp, 0, matrizProyeccion, 0, matrizModelo, 0);
         System.arraycopy(matrizTemp, 0, matrizProyeccion, 0, matrizTemp.length);
     }
-    private void resetearMatrices(){
+
+    private void resetearMatrices() {
         invocarFrustrum();
         invocarMatrices();
         Matrix.setIdentityM(matrizModelo, 0);
     }
+
+
     public void pushMatrix() {
-        float[] copy = new float[16];
-        System.arraycopy(matrizModelo, 0, copy, 0, copy.length);
-        stackModelo.push(copy);
-        System.arraycopy(matrizVista, 0, copy, 0, copy.length);
-        stackVista.push(copy);
-        System.arraycopy(matrizProyeccion, 0, copy, 0, copy.length);
-        stackProyeccion.push(copy);
+        System.arraycopy(matrizModelo, 0, stackModelo, 0, stackModelo.length);
+        System.arraycopy(matrizVista, 0, stackVista, 0, stackVista.length);
+        System.arraycopy(matrizProyeccion, 0, stackProyeccion, 0, stackProyeccion.length);
     }
 
     public void popMatrix() {
-        if ((!stackModelo.isEmpty())&&(!stackVista.isEmpty())&&(!stackProyeccion.isEmpty())) {
-            matrizModelo = stackModelo.pop();
-            matrizVista = stackVista.pop();
-            matrizProyeccion = stackProyeccion.pop();
-        }
+        System.arraycopy(stackModelo, 0, matrizModelo, 0, matrizModelo.length);
+        System.arraycopy(stackVista, 0, matrizVista, 0, matrizVista.length);
+        System.arraycopy(stackProyeccion, 0, matrizProyeccion, 0, matrizProyeccion.length);
     }
 
     private void rotar(float x, float y, float z, float anguloRot) {
